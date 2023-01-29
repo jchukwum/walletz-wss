@@ -1,13 +1,20 @@
 const express = require('express');
+const cors = require('cors');
 const http = require('http');
 const socketIO = require('socket.io');
 
 const app = express();
+app.use(cors());
 const server = http.createServer(app);
-const io = socketIO(server);
+//const io = socketIO(server);
+const io = require('socket.io')(server, {
+    cors: {
+      origin: "*"
+        }
+});
 
 io.on('connection', socket => {
-      console.log('A user connected');
+  console.log("User connected");
 
       socket.on('disconnect', () => {
                 console.log('User disconnected');
